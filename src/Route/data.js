@@ -131,6 +131,7 @@ export function Cards({ data, index, setCount, count, cart, setCart }) {
         onClick={()=>removeFromCart(data)}
       /> : ""}
       <Button
+      style={{"position":"unset"}}
       onClick={()=>navigate(`/view/${data.id}`) }
       variant="contained">View</Button>
      </div>

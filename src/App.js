@@ -31,7 +31,7 @@ function App() {
       />} />
       <Route path='/view/:id' element={<ViewCard/>}/>
 
-      <Route path="*" element={<Navigate to='/'/>}  />
+      {/* <Route path="*" element={<Navigate to='/'/>}  /> */}
     </Routes>
       <ToastContainer/>
 

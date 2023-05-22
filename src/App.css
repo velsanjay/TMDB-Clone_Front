@@ -165,6 +165,9 @@ html{
 .flex button{
   width: 170px;
 }
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+  position:unset;
+}
 @media (max-width : 700px){
   .sigin{
     margin: 30px 20px;

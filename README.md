@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# The Movie Database Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the The Movie Database(TMDB) Clone
 
-## Available Scripts
+# How To Use
 
-In the project directory, you can run:
+Step 1: Create the User Detail
+<!--First, you must fill out the user information on the SignUp Page. -->
 
-### `npm start`
+<!-- If a user is created, go to the login page and allow access from the app. -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- If a user is created and the password is forgotten, go to Forget and forget your password. -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<!-- Your password is encrypted using bcrypt.js -->
 
-### `npm test`
+Step 2: Go to Dashboard
+<!-- dashboard page are valid for only 30 minutes. After 30 minutes, your token will be expired. Go to the login page and again login to continue accessing the app. -->
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- Choose your favourite movie or television show. -->
 
-### `npm run build`
+<!-- Onchang Event used the application to search for a movie or TV show. -->
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<!-- Onclick is used to save the watchlist for your movie. -->
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Spcification
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+FrontEnd - React JS
+Backend - Node JS
+DataBase =>{
+    UserDetail - MongoDB,
+    MovieDetail - The Movie Database(TMDB)
+}
 
-### `npm run eject`
+React JS =>{
+    1 - Material UI
+    2 - axious
+    3 - React-Router-DOM
+    4 - React-Toastify
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Node JS =>{
+    1 - axious
+    2 - cors
+    3 - Express-Generator
+    4 - Jsonwebtoken
+    5 - Mongoose
+    6 - Nodemon
+}
