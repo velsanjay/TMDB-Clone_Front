@@ -1,10 +1,12 @@
 import React from 'react'
 import {   Button, Pagination } from '@mui/material'
 import { Cards, RetutnData } from './data';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function HomePage({data,setData,setCount,count , cart, setCart}) {
-  const navigate = useNavigate()
+  if(data.length==0){
+    toast.error('No Data Found!!!')
+  }
   return (
     <div>
     <div className='home'>
@@ -23,7 +25,7 @@ function HomePage({data,setData,setCount,count , cart, setCart}) {
           )
      
       ) : (
-        <div>
+        <div className='nopage'> 
           <h1>No Data Found!!!</h1>
           <Button
           color="primary"

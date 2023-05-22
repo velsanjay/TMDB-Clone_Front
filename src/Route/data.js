@@ -59,6 +59,8 @@ export const RetutnData = async ({show, detail,setData,num}) =>{
     try {
       let res = await axios.post(`${url}/show`,payload)
       setData(res.data.data)
+      toast.success(`${res.data.data.length} Movies Found!!!`)
+      // console.log(res.data.message)
       let inputData = document.querySelector('input')
       inputData.value=''
     } catch (error) {

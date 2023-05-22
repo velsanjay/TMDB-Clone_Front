@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { url } from '../App';
 import { Button, Rating } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function ViewCard() {
     const { id } = useParams();
@@ -14,16 +15,16 @@ function ViewCard() {
     const navigate = useNavigate();
    useEffect(()=>{
    const FetchData = async () =>{
-        let payload = {id}
+    try {
+            let payload = {id}
         let res = await axios.post(`${url}/id`,payload)
         setRend(res.data.data)
         let rate =res.data.data.vote_average/2
-        console.log(rate);
         setRating(rate)
-        console.log(rating);
+        toast.success(`${res.data.data.original_title} Movie ${res.data.message}`)
         let data =''
         let bgImg = `https://image.tmdb.org/t/p/w500/${res.data.data.backdrop_path}`
-        console.log(bgImg);
+        // console.log(bgImg);
         setBack(bgImg)
         var hours = Math.floor(res.data.data.runtime / 60);  
         var minutes = res.data.data.runtime % 60;
@@ -32,10 +33,12 @@ function ViewCard() {
             data +=` ${i.name}`
         }
         setGenere(data)
+    } catch (error) {
+     toast.error(error.response.data.message)
     }
+}
     FetchData()
    },[])
-console.log(rend);
  
    
     const img = (prop) => `https://image.tmdb.org/t/p/w500${prop}`
@@ -45,13 +48,13 @@ console.log(rend);
             { rend ? (
                 <div className='view' style={{"backgroundImage":`url(${back})`,"backgroundSize":"cover","backgroundPosition":"center"}}>
                  <div>
-                        <img src={img(rend.poster_path)}/>
+                        <img alt={rend.title || rend.name} src={img(rend.poster_path)}/>
                 </div>
                 <div>
                     <h1>{rend.title || rend.name}</h1>
                      
                      <p>{rend.release_date} . {genere} . {time}</p>
-                     {rating != 0 ?(
+                     {rating !== 0 ?(
                         <Rating name="half-rating-read" defaultValue={rating } precision={0.1} readOnly />
                      ):(
                         null
@@ -61,7 +64,7 @@ console.log(rend);
                     <h4>OVERVIEW</h4>
                     <p>{rend.overview}</p>
                     <div className='bottom'>
-                        {rend.homepage != '' ?(
+                        {rend.homepage !== '' ?(
                             <a href={rend.homepage} target='_blank'>Watch Trailer</a>
                         ):(
                             null

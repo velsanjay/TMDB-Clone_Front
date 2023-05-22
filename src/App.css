@@ -1,10 +1,12 @@
 html{
-  background-color: blueviolet;
+  background-color: #4158d0;
+  background-image: linear-gradient(43deg,#0a044a,#d675d2 46%,#988b76);
+
 }
 .App {
   display: flex;
   justify-content: space-between;
-  background-color: darkblue;
+  background-color: rgb(8, 8, 163);
   text-align: center;
   align-items: center;
   position: fixed;
@@ -35,7 +37,7 @@ html{
 
 .home{
   padding-top: 70px;
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -104,6 +106,11 @@ html{
 .bottom a{
   text-decoration: none;
   color: #fff;
+}
+.nopage{
+  height: 80vh;
+  text-align: center;
+  align-items: center;
 }
 
 @media (max-width : 600px){
