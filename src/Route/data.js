@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react'
 import { url } from '../App'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { Button } from '@mui/material';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
 function DataProvider() {
     const [data , setData] = useState([])
@@ -22,7 +24,6 @@ function DataProvider() {
         headers:{Authorization:`Bearer ${token}`}
       })
       setData(res.data.data);
-      console.log(res.data)
       toast.success(res.data.message)
     } catch (error) {
       if(error.response.status === 401 || error.response.status===400)
@@ -31,17 +32,13 @@ function DataProvider() {
         logout()
       }
     }
-   
   }
-
     useEffect(() => {
       if(token)
       fetchData()
       else
       logout()    
       }, [token])
-
-
   return {data,setData,count,setCount,cart,setCart}
 }
 
@@ -58,33 +55,85 @@ export const RetutnData = async ({show, detail,setData,num}) =>{
     console.log(show,detail);
    }
      page = num;
-   console.log(show,detail);
     let payload = {page,show , detail}
     try {
       let res = await axios.post(`${url}/show`,payload)
       setData(res.data.data)
+      let inputData = document.querySelector('input')
+      inputData.value=''
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
     shows = show;
     details = detail;
   }
 
 export const SearchData = async({setData, query}) =>{
-  // console.log(query )
+  if(query==''){
+    RetutnData({num:1,setData})
+  }else{
 
   let payload= {query,show:"movie"}
   let payload1= {query,show:"tv"}
-  
+
   try {
     let res = await axios.post(`${url}/search`,payload)
     let res1 = await axios.post(`${url}/search`,payload1)
-
     setData([...res.data.data,...res1.data.data])
-    let inp = document.querySelector('input')
-    inp.value = '';
    } catch (error) {
-   console.log(error); 
+   toast.error(error.response.data.message) 
+  }
+  }
+}
+
+export function Cards({ data, index, setCount, count, cart, setCart }) {
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+
+  useEffect(()=>{;
+    let cartDetail = cart.find((e)=>e.id===data.id)
+    if(cartDetail){
+      setShow(true)
+    }else{
+      setShow(false)
+    }
+  })
+   
+  const img = (prop) => `https://image.tmdb.org/t/p/w500${prop}`
+
+  function addToCart(data) {
+
+    setShow(!show);
+    setCart([...cart,data])
+    setCount(count + 1);
   }
 
+  function removeFromCart(data) {
+    setShow(!show)
+    setCount(count - 1)
+    let remove = cart.filter((e)=> e.id !== data.id)
+    setCart(remove)
+
+  }
+
+  return (
+    <div className='card' key={index}>
+      <img src={img(data.poster_path)} alt={ data.title || data.name} />
+      <h4>{data.title || data.name}</h4>
+      <p>{data.release_date || data.first_air_date}</p>
+     <div className='search'>
+      {!show ? <BookmarkAddIcon
+        variant="primary"
+        onClick={()=>addToCart(data)}
+      /> : ""}
+      {show ? <BookmarkAddedIcon
+        variant="danger"
+        onClick={()=>removeFromCart(data)}
+      /> : ""}
+      <Button
+      onClick={()=>navigate(`/view/${data.id}`) }
+      variant="contained">View</Button>
+     </div>
+    </div>
+  )
 }

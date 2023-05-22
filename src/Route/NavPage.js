@@ -66,7 +66,6 @@ function NavPage({ data, setData ,count,cart }) {
   const [show, setShow] = useState('');
   const [val, setVal] = useState(null)
   const [detail, setDetail] = useState('');
-  const [query, setQuery] = useState("");
   let navigate = useNavigate()
 
   const tvData = [
@@ -209,12 +208,10 @@ function NavPage({ data, setData ,count,cart }) {
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search…"
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => SearchData({query:e.target.value,setData})}
             inputProps={{ 'aria-label': 'search' }}
           />
-          <SendIcon
-            onClick={() => SearchData({ setData, query, setQuery })}
-          />
+        
         </Search>
       </Toolbar>
       <IconButton
