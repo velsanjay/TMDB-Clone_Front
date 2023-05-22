@@ -46,3 +46,7 @@ Node JS =>{
     5 - Mongoose
     6 - Nodemon
 }
+
+# Deploynment
+
+<!-- Front-end deployment is used to netlify, and the back-end will be deployed by render. -->
