@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { url } from '../../App';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { RingLoader } from 'react-spinners';
 
 function Forget() {
   const navigator = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email,setEmail]= useState(null);
   const [password , setPassword] =useState(null)
+  const [ loading , setLoading] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -20,6 +22,7 @@ function Forget() {
   };
 const handleForget = async(e) =>{
   e.preventDefault();
+  setLoading(true)
 const payload ={email,password}
 try {
   let res = await axios.patch(`${url}/forget` , payload)
@@ -35,8 +38,20 @@ try {
 } catch (error) {
   toast.error(error.response.data.message)
 }  
+setLoading(false)
 }
-  return (
+  return <>
+  {loading ?(
+      <div className='load'>
+          <RingLoader
+      color="darkblue"
+      loading={loading}
+      size={100}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+      </div>
+     ):(
     <div className='sigin'>
     <h1> Forget Password </h1>
     <form onSubmit={handleForget}>
@@ -96,7 +111,9 @@ try {
           <p onClick={()=>navigator('/')} > Already You Have Account?</p>
           </form>
   </div>
-  )
+  )}
+  </>
+
 }
 
 export default Forget

@@ -1,7 +1,10 @@
 html{
-  background-color: #4158d0;
-  background-image: linear-gradient(43deg,#0a044a,#d675d2 46%,#988b76);
+  background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+  /* background-color: darkred;
 
+  background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%); */
+  /* background-image: linear-gradient(43deg,rgb(12, 8, 1),#add976 46%,rgb(189, 223, 243)); */
+  min-height: 100vh;
 }
 .App {
   display: flex;
@@ -163,14 +166,18 @@ html{
 .flex{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   align-content: center;
   text-align: center;
   margin-top: 30px
 }
-.flex button{
-  width: 170px;
+.load{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
 }
 .css-sghohy-MuiButtonBase-root-MuiButton-root{
   position:unset;

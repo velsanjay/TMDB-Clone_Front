@@ -8,6 +8,7 @@ import {  toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { url } from '../../App';
+import { RingLoader } from 'react-spinners';
 
 
 
@@ -18,9 +19,11 @@ function SignUp() {
   const [password , setPsssword] = useState(null);
   const [email , setEmail] = useState(null);
   const [confirmPassword , setConfirmPsssword] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   const handleUser = async(e) =>{
   e.preventDefault();
+  setLoading(true)
 
     let payload = {name,email,password,confirmPassword}
     try {
@@ -36,17 +39,25 @@ function SignUp() {
       toast.error(error.response.data.message)
  
     }
-
+    setLoading(false)
   }
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  return (
-    // <div>
-    //     <h1>Hii</h1>
-    // </div>
+  return <>
+ {loading ?(
+      <div className='load'>
+          <RingLoader
+      color="darkblue"
+      loading={loading}
+      size={100}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+      </div>
+     ):(
     <div className='sigin'>
       <h1> Sign Up </h1>
       <form onSubmit={handleUser}>
@@ -132,7 +143,8 @@ function SignUp() {
             <p onClick={()=>navigator('/')} > Already You Have Account?</p>
             </form>
     </div>
-  )
+    )}
+    </>
 }
 
 export default SignUp

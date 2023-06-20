@@ -11,6 +11,7 @@ function DataProvider() {
     const [data , setData] = useState([])
     const [count, setCount ] = useState(0);
     const [ cart , setCart ] = useState([])
+    const [loading, setLoading] = useState(false)
     let token = sessionStorage.getItem('token')
     let navigate = useNavigate()
 
@@ -19,6 +20,7 @@ function DataProvider() {
       navigate('/')
   }
   const fetchData = async () => {
+    setLoading(true)
     try {
       let res = await axios.get(`${url}`,{
         headers:{Authorization:`Bearer ${token}`}
@@ -32,6 +34,7 @@ function DataProvider() {
         logout()
       }
     }
+    setLoading(false)
   }
     useEffect(() => {
       if(token)
@@ -39,20 +42,20 @@ function DataProvider() {
       else
       logout()    
       }, [token])
-  return {data,setData,count,setCount,cart,setCart}
+  return {data,setData,count,setCount,cart,setCart, loading, setLoading}
 }
 
 export default DataProvider
 
 let shows;
    let details;
-export const RetutnData = async ({show, detail,setData,num}) =>{
+export const RetutnData = async ({show, detail,setData,num, setLoading}) =>{
    let page = 1;
-   
+   setLoading(true)
    if(!show){
     show = shows
     detail = details
-    console.log(show,detail);
+    // console.log(show,detail);
    }
      page = num;
     let payload = {page,show , detail}
@@ -68,13 +71,14 @@ export const RetutnData = async ({show, detail,setData,num}) =>{
     }
     shows = show;
     details = detail;
+    setLoading(false)
   }
 
-export const SearchData = async({setData, query}) =>{
+export const SearchData = async({setData, query, setLoading}) =>{
   if(query==''){
-    RetutnData({num:1,setData})
+    RetutnData({num:1,setData,setLoading})
   }else{
-
+    setLoading(true)
   let payload= {query,show:"movie"}
   let payload1= {query,show:"tv"}
 
@@ -85,7 +89,8 @@ export const SearchData = async({setData, query}) =>{
    } catch (error) {
    toast.error(error.response.data.message) 
   }
-  }
+  setLoading(false)  
+}
 }
 
 export function Cards({ data, index, setCount, count, cart, setCart }) {
@@ -117,12 +122,23 @@ export function Cards({ data, index, setCount, count, cart, setCart }) {
     setCart(remove)
 
   }
+  let date;
+  if(data !=null){
+    let mon = ['','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    if (data.release_date){
+      let ex1 = data.release_date.split('-')
+       date = `${ex1[2]} ${mon[Number(ex1[1])]} ${ex1[0]}` 
+    }else if(data.first_air_date){
+      let ex1 = data.first_air_date.split('-')
+      date = `${ex1[2]} ${mon[Number(ex1[1])]} ${ex1[0]}` 
+    }
+}
 
   return (
     <div className='card' key={index}>
       <img src={img(data.poster_path)} alt={ data.title || data.name} />
       <h4>{data.title || data.name}</h4>
-      <p>{data.release_date || data.first_air_date}</p>
+      <p>{date}</p>
      <div className='search'>
       {!show ? <BookmarkAddIcon
         variant="primary"

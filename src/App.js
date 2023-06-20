@@ -1,6 +1,6 @@
 import './App.css';
 import * as React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Dashboard from './Route/Dashboard';
 import ViewCard from './Route/viewCard';
 import DataProvider from './Route/data';
@@ -14,7 +14,7 @@ import Forget from './Route/User/forget';
 export const url = "https://tmdb-clone.onrender.com"
 
 function App() {
-  const {data , setData, count , setCount, cart, setCart} = DataProvider();
+  const {data , setData, count , setCount, cart, setCart, loading, setLoading} = DataProvider();
   return (
    <div>
     <Routes>
@@ -28,6 +28,8 @@ function App() {
       count = {count}
       cart = {cart}
       setCart = {setCart}
+      loading= {loading}
+      setLoading = {setLoading}
       />} />
       <Route path='/view/:id' element={<ViewCard/>}/>
 

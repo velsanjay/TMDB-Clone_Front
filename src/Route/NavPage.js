@@ -5,9 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
 import  { RetutnData, SearchData } from './data';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,10 +59,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-function NavPage({ data, setData ,count,cart }) {
+function NavPage({ data, setData ,count,cart, setLoading }) {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState('');
-  const [val, setVal] = useState(null)
   const [detail, setDetail] = useState('');
   let navigate = useNavigate()
 
@@ -105,16 +102,6 @@ function NavPage({ data, setData ,count,cart }) {
     }
   ]
 
-  const onSelect = async (event) => {
-    setShow(event.target.value)
-
-    if (show === 'tv') {
-      setVal(false)
-    } else if (show === 'movie') {
-      setVal(true)
-    }
-    console.log(val)
-  }
   let logout = ()=>{
     sessionStorage.clear()
     navigate('/')
@@ -138,7 +125,8 @@ function NavPage({ data, setData ,count,cart }) {
         show,
         detail,
         data,
-        setData
+        setData,
+        setLoading
       })
     }
   };
@@ -159,7 +147,7 @@ function NavPage({ data, setData ,count,cart }) {
                   id="demo-simple-select"
                   value={show}
                   label="Catogorie"
-                  onChange={onSelect}
+                  onChange={(e)=>setShow(e.target.value)}
                 >
                   <MenuItem value={'movie'}>Movie</MenuItem>
                   <MenuItem value={'tv'}>TV</MenuItem>
@@ -173,14 +161,14 @@ function NavPage({ data, setData ,count,cart }) {
                   value={detail}
                   onChange={(e) => setDetail(e.target.value)}
                 >
-                  {val === false ? (
+                  {show == "movie" ? (
                     movieData.map((data, index) => (
                       <MenuItem
                         key={index}
                         value={data.detail}>{data.name}</MenuItem>
                     ))
 
-                  ) : val === true ? (
+                  ) : show == "tv" ? (
                     tvData.map((data, index) => (
                       <MenuItem key={index} value={data.detail}>{data.name}</MenuItem>
                     ))
@@ -208,7 +196,7 @@ function NavPage({ data, setData ,count,cart }) {
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search…"
-            onChange={(e) => SearchData({query:e.target.value,setData})}
+            onChange={(e) => SearchData({query:e.target.value,setData, setLoading})}
             inputProps={{ 'aria-label': 'search' }}
           />
         
@@ -218,9 +206,7 @@ function NavPage({ data, setData ,count,cart }) {
       onClick={()=>setData(cart)}
       aria-label="cart">
         <StyledBadge badgeContent={count} color="secondary">
-          <ShoppingCartIcon
-          
-          />
+          <ShoppingCartIcon/>
         </StyledBadge>
       </IconButton>
       <Button

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { url } from '../../App';
+import { RingLoader } from 'react-spinners';
 
 
 const SignIn = () => {
@@ -15,6 +16,7 @@ const SignIn = () => {
   let [email , setEmail] = useState();
   let [password , setPassword] = useState();
   const navigate = useNavigate();
+  let [ loading , setLoading] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,12 +25,12 @@ const SignIn = () => {
 
   const handleLogin = async(e) =>{
     e.preventDefault();
+    setLoading(true)
     let payload = {email,password}
     try {
       let res = await axios.post(`${url}/signin`,payload)
-      console.log(res)
+      console.log(res.data)
    toast.success(res.data.message)
-   console.log(res.data.token)
    sessionStorage.setItem('token',res.data.token)
    let a = document.querySelectorAll('input')
 
@@ -38,12 +40,23 @@ const SignIn = () => {
    navigate('/dashboard')
 
     } catch (error) {
-      console.log(error.response.data);
      toast.error(error.response.data.message)
     } 
+    setLoading(false)
   }
 
   return <>
+{loading ?(
+      <div className='load'>
+          <RingLoader
+      color="darkblue"
+      loading={loading}
+      size={100}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+      </div>
+     ):(
     <div className='sigin'>
       <h1> Sign in  </h1>
       <form onSubmit={handleLogin}>
@@ -100,6 +113,7 @@ const SignIn = () => {
     <p onClick={()=> navigate('/signup')}>New User? </p>
     </form>
     </div>
+    )}
   </>
 }
 

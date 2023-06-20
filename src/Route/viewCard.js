@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { url } from '../App';
 import { Button, Rating } from '@mui/material';
 import { toast } from 'react-toastify';
+import { HashLoader } from 'react-spinners';
 
 function ViewCard() {
     const { id } = useParams();
@@ -13,8 +14,11 @@ function ViewCard() {
     const [rating, setRating] = useState(0);
     const [back , setBack] = useState('')
     const navigate = useNavigate();
+    const [loading , setLoading] = useState(false)
+
    useEffect(()=>{
    const FetchData = async () =>{
+    setLoading(true)
     try {
             let payload = {id}
         let res = await axios.post(`${url}/id`,payload)
@@ -36,13 +40,38 @@ function ViewCard() {
     } catch (error) {
      toast.error(error.response.data.message)
     }
+    setLoading(false)
 }
     FetchData()
    },[])
+
+   let date;
+  if(rend !=null){
+    let mon = ['','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    if (rend.release_date){
+      let ex1 = rend.release_date.split('-')
+       date = `${ex1[2]} ${mon[Number(ex1[1])]} ${ex1[0]}` 
+    }else if(rend.first_air_date){
+      let ex1 = rend.first_air_date.split('-')
+      date = `${ex1[2]} ${mon[Number(ex1[1])]} ${ex1[0]}` 
+    }
+}
+
  
    
     const img = (prop) => `https://image.tmdb.org/t/p/w500${prop}`
-       return (
+       return <>
+       {loading ?(
+        <div className='load'>
+            <HashLoader
+        color="darkblue"
+        loading={loading}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+        </div>
+       ):(
 
     <div>
             { rend ? (
@@ -53,7 +82,7 @@ function ViewCard() {
                 <div>
                     <h1>{rend.title || rend.name}</h1>
                      
-                     <p>{rend.release_date} . {genere} . {time}</p>
+                     <p>{date} . {genere} . {time}</p>
                      {rating !== 0 ?(
                         <Rating name="half-rating-read" defaultValue={rating } precision={0.1} readOnly />
                      ):(
@@ -81,7 +110,8 @@ function ViewCard() {
             )}
 
 </div>
-    )
+)}
+</>
 }
 
 export default ViewCard
